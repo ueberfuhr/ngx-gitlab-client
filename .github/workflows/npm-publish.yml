@@ -36,6 +36,7 @@ jobs:
 
   patch-version:
     needs: publish-npm
+    runs-on: ubuntu-latest
     steps:
       - run: |
           npm version patch
