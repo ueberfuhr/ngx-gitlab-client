@@ -1,5 +1,5 @@
-import {ModuleWithProviders, NgModule} from '@angular/core';
-import {GitlabConfig, GitlabConfigProvider} from './config/gitlab-config.model';
+import {InjectionToken, ModuleWithProviders, NgModule} from '@angular/core';
+import {GitlabConfig} from './config/gitlab-config.model';
 import {GitlabService} from './services/shared/gitlab.service';
 import {HttpClientModule} from '@angular/common/http';
 import {GitlabUsersService} from './services/users/gitlab-users.service';
@@ -10,6 +10,21 @@ import {GitlabLabelsService} from './services/issues/gitlab-labels.service';
 import {IssueImportService} from './services/issues/issue-import.service';
 import {IssueExportService} from './services/issues/issue-export.service';
 import {IssueExportModelMapperService} from './services/issues/issue-export-model-mapper.service';
+
+/**
+ * Use this injection token to configure a Gitlab configuration provider.
+ * This allows dynamically resolving the Gitlab config by using a service, like shown here:
+ *
+ * <pre>
+ * {
+ *   provide: GITLAB_CONFIG_PROVIDER,
+ *   useFactory: (service: MyGitlabConfigService) => () => service.configuration,
+ *   deps: [MyGitlabConfigService],
+ * }
+ * </pre>
+ *
+ */
+export const GITLAB_CONFIG_PROVIDER = new InjectionToken<() => GitlabConfig>("Gitlab Configuration Provider");
 
 @NgModule({
   imports: [
@@ -34,11 +49,14 @@ import {IssueExportModelMapperService} from './services/issues/issue-export-mode
 })
 export class GitlabClientModule {
 
-  static forRoot(gitlabConfigFactory: () => GitlabConfig): ModuleWithProviders<GitlabClientModule> {
+  static forRoot(config: GitlabConfig): ModuleWithProviders<GitlabClientModule> {
     return {
       ngModule: GitlabClientModule,
       providers: [
-        {provide: GitlabConfigProvider, useValue: new GitlabConfigProvider(gitlabConfigFactory)}
+        {
+          provide: GITLAB_CONFIG_PROVIDER,
+          useValue: () => config
+        }
       ]
     }
   }
