@@ -2,19 +2,22 @@ import {createHttpFactory, HttpMethod, SpectatorHttp} from '@ngneat/spectator/je
 import {DataSet, GitlabService} from './gitlab.service';
 import {HttpTestingController} from '@angular/common/http/testing';
 import {map, merge, take, toArray} from 'rxjs';
-import {GitlabConfigProvider} from '../../config/gitlab-config.model';
+import {GITLAB_CONFIG_PROVIDER} from '../../gitlab-client.module';
+import {GitlabConfig} from '../../config/gitlab-config.model';
 
 describe('GitlabService', () => {
+
+  // TODO test error when provider is null
 
   const createHttp = createHttpFactory({
     service: GitlabService,
     providers: [
       {
-        provide: GitlabConfigProvider,
-        useValue: GitlabConfigProvider.fromStatic({
+        provide: GITLAB_CONFIG_PROVIDER,
+        useValue: () => ({
           host: 'host',
           token: 'token'
-        })
+        } as GitlabConfig)
       }
     ]
   });
