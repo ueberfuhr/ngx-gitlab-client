@@ -32,10 +32,8 @@ jobs:
       - uses: actions/checkout@v3
       - run: |
           npm version patch
-          git config --global user.name "${{ env.GITHUB_ACTOR }}"
-          git config --global user.email "${{ env.GITHUB_ACTOR }}@users.noreply.github.com"
           git add package.json
-          git commit -m "Increase patch version after release"
+          git commit --author="Automated GitHub Action <>" -m "Increase patch version after release"
           git push
         working-directory: projects/gitlab-client
 
