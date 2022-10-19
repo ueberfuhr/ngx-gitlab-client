@@ -16,7 +16,8 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-      - run: npm test
+      - run: npm run build
+      - run: npm run test
 
   publish-npm:
     needs: build
@@ -27,9 +28,21 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm run build
-      - run: npm publish --access public
+      - name: Publish to NPM Registry
+        run: npm publish --access public
         working-directory: dist/gitlab-client
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+
+  patch-version:
+    needs: publish-npm
+    steps:
+      - run: |
+          npm version patch
+          git config --global user.name "${{ env.GITHUB_ACTOR }}"
+          git config --global user.email "${{ env.GITHUB_ACTOR }}@users.noreply.github.com"
+          git add package.json
+          git commit -m "Increase patch version after release"
+          git push
+        working-directory: projects/gitlab-client
+
