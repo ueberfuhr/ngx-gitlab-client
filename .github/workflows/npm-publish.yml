@@ -32,6 +32,8 @@ jobs:
       - uses: actions/checkout@v3
       - run: |
           npm version patch
+          git config user.name "Automated GitHub Action"
+          git config user.email ""
           git add package.json
           git commit --author="Automated GitHub Action <>" -m "Increase patch version after release"
           git push
