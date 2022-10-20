@@ -98,9 +98,25 @@ export class MyService {
 
   readSingleProject(): void {
     this.service
-      .getCurrentUser()
-      .subscribe(user => {
-        // ... user is type of GitlabUser
+      .getProjectById(10)
+      .subscribe(project => {
+        // ... project is type of GitlabProject
+      });
+  }
+
+  readAllProjects(): void {
+    this.service
+      .getProjects()
+      .subscribe(project => {
+        // ... project is type of GitlabProject
+      });
+  }
+
+  readSomeProjects(): void {
+    this.service
+      .getProjects('angular')
+      .subscribe(project => {
+        // ... project is type of GitlabProject
       });
   }
 
