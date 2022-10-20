@@ -86,6 +86,27 @@ export class MyService {
 }
 ```
 
+### Projects Service
+
+With this service, we can find projects that the current user has access to.
+
+```typescript
+export class MyService {
+
+  constructor(private readonly service: GitlabProjectsService) {
+  }
+
+  readSingleProject(): void {
+    this.service
+      .getCurrentUser()
+      .subscribe(user => {
+        // ... user is type of GitlabUser
+      });
+  }
+
+}
+```
+
 ## Gitlab Service - Basic API Calls
 
 `GitlabService` is a common service without any relation to a special REST resource.
