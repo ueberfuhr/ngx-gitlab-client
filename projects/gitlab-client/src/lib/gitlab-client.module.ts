@@ -10,6 +10,7 @@ import {GitlabLabelsService} from './issues/gitlab-labels.service';
 import {IssueImportService} from './issues/issue-import.service';
 import {IssueExportService} from './issues/issue-export.service';
 import {IssueExportModelMapperService} from './issues/issue-export-model-mapper.service';
+import {ProgressService} from './issues/progress/progress.service';
 
 /**
  * Use this injection token to configure a Gitlab connection configuration provider.
@@ -82,7 +83,8 @@ export const GITLAB_CONFIG_PROVIDER = new InjectionToken<() => GitlabConfig>("Gi
     GitlabIssuesService,
     IssueExportModelMapperService,
     IssueImportService,
-    IssueExportService
+    IssueExportService,
+    ProgressService
   ],
   declarations: [
     LabelsByNamePipe
