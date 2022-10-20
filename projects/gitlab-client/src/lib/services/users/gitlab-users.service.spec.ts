@@ -2,7 +2,7 @@ import {GitlabUsersService} from './gitlab-users.service';
 import {createServiceFactory, SpectatorService, SpyObject} from '@ngneat/spectator/jest';
 import {of, throwError} from 'rxjs';
 import {HttpErrorResponse} from '@angular/common/http';
-import {GitlabService} from '../shared/gitlab.service';
+import {GitlabService} from '../../shared/gitlab.service';
 
 describe('GitlabUsersService', () => {
 

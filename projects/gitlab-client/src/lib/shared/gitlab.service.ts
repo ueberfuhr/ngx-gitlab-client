@@ -1,8 +1,8 @@
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {catchError, concat, defer, EMPTY, from, mergeMap, Observable, Subject, tap, throwError} from 'rxjs';
-import {GitlabConfig} from '../../config/gitlab-config.model';
+import {GitlabConfig} from '../config/gitlab-config.model';
 import {Inject, Injectable, Optional} from '@angular/core';
-import {GITLAB_CONFIG_PROVIDER} from '../../gitlab-client.module';
+import {GITLAB_CONFIG_PROVIDER} from '../gitlab-client.module';
 
 // header names
 const TOTAL_HEADER = 'X-Total';

@@ -1,6 +1,6 @@
 import {InjectionToken, ModuleWithProviders, NgModule} from '@angular/core';
 import {GitlabConfig} from './config/gitlab-config.model';
-import {GitlabService} from './services/shared/gitlab.service';
+import {GitlabService} from './shared/gitlab.service';
 import {HttpClientModule} from '@angular/common/http';
 import {GitlabUsersService} from './services/users/gitlab-users.service';
 import {GitlabProjectsService} from './services/projects/gitlab-projects.service';

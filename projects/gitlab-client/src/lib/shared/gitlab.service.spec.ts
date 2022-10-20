@@ -2,8 +2,8 @@ import {createHttpFactory, HttpMethod, SpectatorHttp} from '@ngneat/spectator/je
 import {DataSet, GitlabService, NoGitlabConnectionProviderError} from './gitlab.service';
 import {HttpTestingController} from '@angular/common/http/testing';
 import {map, merge, take, toArray} from 'rxjs';
-import {GITLAB_CONFIG_PROVIDER} from '../../gitlab-client.module';
-import {GitlabConfig} from '../../config/gitlab-config.model';
+import {GITLAB_CONFIG_PROVIDER} from '../gitlab-client.module';
+import {GitlabConfig} from '../config/gitlab-config.model';
 
 describe('GitlabService', () => {
 

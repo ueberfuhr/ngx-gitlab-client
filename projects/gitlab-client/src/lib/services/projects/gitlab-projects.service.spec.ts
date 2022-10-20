@@ -1,6 +1,6 @@
 import {createServiceFactory, SpectatorService, SpyObject} from '@ngneat/spectator/jest';
 import {GitlabProjectsService} from './gitlab-projects.service';
-import {GitlabService} from '../shared/gitlab.service';
+import {GitlabService} from '../../shared/gitlab.service';
 
 describe('GitlabProjectsService', () => {
 
