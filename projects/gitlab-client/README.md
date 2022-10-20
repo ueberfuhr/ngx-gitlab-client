@@ -48,7 +48,7 @@ export class MyGitlabConfigService {
   providers: [
     {
       provide: GITLAB_CONFIG_PROVIDER,
-      useFactory: (service: MyGitlabConfigService) => service.readConfiguration,
+      useFactory: (service: MyGitlabConfigService) => () => service.readConfiguration(),
       deps: [MyGitlabConfigService],
     }
   ]
