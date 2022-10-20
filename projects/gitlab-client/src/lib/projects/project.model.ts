@@ -9,7 +9,7 @@ export interface GitlabProjectNamespace {
   /**
    * The unique path of the group within the Gitlab instance.
    */
-  full_path: string
+  fullPath: string
 }
 
 /**
@@ -28,26 +28,17 @@ export interface GitlabProject {
   /**
    * The unique project name within the Gitlab instance using a slash as separator.
    */
-  name_with_namespace: string;
+  nameWithNamespace: string;
   /**
    * The unique name of the group within the Gitlab instance using a slash as separator.
    */
-  path_with_namespace: string;
+  pathWithNamespace: string;
   /**
    * The URL to the project that can be opened within a browser.
    */
-  web_url: string;
+  webUrl: string;
   /**
    * The group containing the project.
    */
-  namespace: {
-    /**
-     * The id of the group.
-     */
-    id: number,
-    /**
-     * The unique path of the group within the Gitlab instance.
-     */
-    full_path: string
-  }
+  namespace: GitlabProjectNamespace
 }
