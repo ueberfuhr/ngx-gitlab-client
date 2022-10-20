@@ -18,4 +18,3 @@ export * from './lib/issues/gitlab-issues.service';
 export * from './lib/issues/gitlab-labels.service';
 export * from './lib/issues/issue-export.service';
 export * from './lib/issues/issue-import.service';
-export * from './lib/issues/labels-by-name.pipe';

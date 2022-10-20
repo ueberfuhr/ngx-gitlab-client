@@ -4,7 +4,6 @@ import {GitlabService} from './shared/gitlab.service';
 import {HttpClientModule} from '@angular/common/http';
 import {GitlabUsersService} from './users/gitlab-users.service';
 import {GitlabProjectsService} from './projects/gitlab-projects.service';
-import {LabelsByNamePipe} from './issues/labels-by-name.pipe';
 import {GitlabIssuesService} from './issues/gitlab-issues.service';
 import {GitlabLabelsService} from './issues/gitlab-labels.service';
 import {IssueImportService} from './issues/issue-import.service';
@@ -85,12 +84,6 @@ export const GITLAB_CONFIG_PROVIDER = new InjectionToken<() => GitlabConfig>("Gi
     IssueImportService,
     IssueExportService,
     ProgressService
-  ],
-  declarations: [
-    LabelsByNamePipe
-  ],
-  exports: [
-    LabelsByNamePipe
   ]
 })
 export class GitlabClientModule {
