@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {map, Observable} from 'rxjs';
-import {GitlabService} from '../../shared/gitlab.service';
+import {GitlabService} from '../shared/gitlab.service';
 import {GitlabUser} from './gitlab-user.model';
 
 @Injectable({
