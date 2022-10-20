@@ -8,6 +8,19 @@ import {GITLAB_CONFIG_PROVIDER} from '../../gitlab-client.module';
 const TOTAL_HEADER = 'X-Total';
 const TOTAL_PAGES_HEADER = 'X-Total-Pages'
 
+/**
+ * This error is thrown then there isn't any Gitlab connection configuration provider.
+ */
+export class NoGitlabConnectionProviderError extends Error {
+  constructor() {
+    super(
+      'There isn\'t any Gitlab connection configuration provider available for dependency injection. ' +
+      'Please configure a GITLAB_CONFIG_PROVIDER or import the GitlabClientModule by ' +
+      'using GitlabClientModule.forRoot(myGitlabConfig).'
+    );
+  }
+}
+
 @Injectable({
   providedIn: null
 })
@@ -22,11 +35,8 @@ export class GitlabService {
     private readonly http: HttpClient,
     @Inject(GITLAB_CONFIG_PROVIDER) @Optional() private readonly config: () => GitlabConfig
   ) {
-    if (this.config == null) {
-      throw new Error(
-        "A GITLAB_CONFIG_PROVIDER is not available for dependency injection. " +
-        "Please configure a GITLAB_CONFIG_PROVIDER or import the GitlabClientModule by " +
-        "using GitlabClientModule.forRoot(myGitlabConfig).");
+    if (!this.config) {
+      throw new NoGitlabConnectionProviderError();
     }
   }
 
@@ -77,6 +87,7 @@ export class GitlabService {
 
   // uses for recursive call
   private callPaginatedSincePage<T>(resource: string, page: number, pageSize: number, options?: CallOptions): Observable<DataSet<T>> {
+    const indexOffset = (page - 1) * pageSize;
     // deferring is important to only lazy fetch data from the server if the pipe limits the count of data
     return defer(() => {
       let config = this.config();
@@ -103,7 +114,7 @@ export class GitlabService {
             const totalPages = totalPagesHeader ? Number(totalPagesHeader) : page;
             // create Observables
             const itemsOfThisRequest$ = from(
-              body.map(payload => ({payload, total} as DataSet<T>))
+              body.map((payload, index) => ({payload, index: index + indexOffset, total} as DataSet<T>))
             );
             const itemsOfNextPage$ = page === totalPages ?
               EMPTY :
@@ -149,7 +160,7 @@ export interface DataSet<T> {
   /**
    * The 0-based index of the data set.
    */
-  //index: number;
+  index: number;
   /**
    * The total count of available data sets.
    */
