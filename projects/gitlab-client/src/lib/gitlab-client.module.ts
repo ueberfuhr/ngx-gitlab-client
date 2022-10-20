@@ -2,14 +2,14 @@ import {InjectionToken, ModuleWithProviders, NgModule} from '@angular/core';
 import {GitlabConfig} from './config/gitlab-config.model';
 import {GitlabService} from './shared/gitlab.service';
 import {HttpClientModule} from '@angular/common/http';
-import {GitlabUsersService} from './services/users/gitlab-users.service';
-import {GitlabProjectsService} from './services/projects/gitlab-projects.service';
-import {LabelsByNamePipe} from './services/issues/labels-by-name.pipe';
-import {GitlabIssuesService} from './services/issues/gitlab-issues.service';
-import {GitlabLabelsService} from './services/issues/gitlab-labels.service';
-import {IssueImportService} from './services/issues/issue-import.service';
-import {IssueExportService} from './services/issues/issue-export.service';
-import {IssueExportModelMapperService} from './services/issues/issue-export-model-mapper.service';
+import {GitlabUsersService} from './users/gitlab-users.service';
+import {GitlabProjectsService} from './projects/gitlab-projects.service';
+import {LabelsByNamePipe} from './issues/labels-by-name.pipe';
+import {GitlabIssuesService} from './issues/gitlab-issues.service';
+import {GitlabLabelsService} from './issues/gitlab-labels.service';
+import {IssueImportService} from './issues/issue-import.service';
+import {IssueExportService} from './issues/issue-export.service';
+import {IssueExportModelMapperService} from './issues/issue-export-model-mapper.service';
 
 /**
  * Use this injection token to configure a Gitlab connection configuration provider.

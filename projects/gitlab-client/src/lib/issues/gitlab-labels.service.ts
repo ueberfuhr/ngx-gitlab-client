@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {map, Observable, tap} from 'rxjs';
-import {DataSet, GitlabService} from '../../shared/gitlab.service';
+import {DataSet, GitlabService} from '../shared/gitlab.service';
 import {GitlabLabel, GitlabLabelWithCounts} from './models/gitlab-label.model';
 import {GitlabProject} from '../projects/project.model';
 

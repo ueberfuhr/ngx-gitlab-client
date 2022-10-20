@@ -1,6 +1,6 @@
 import {Injectable, Optional} from '@angular/core';
 import {BehaviorSubject, defer, Observable, of, tap} from 'rxjs';
-import {GitlabClientModule} from '../../../gitlab-client.module';
+import {GitlabClientModule} from '../../gitlab-client.module';
 
 export abstract class ProgressDialog {
 
