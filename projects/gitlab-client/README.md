@@ -57,6 +57,35 @@ export class MyModule {
 }
 ```
 
+## Gitlab REST resource services
+
+There are some services that provide access to Gitlab REST resources
+with a specific API. We can get them by dependency injection and then use
+the provided operations.
+
+### Users Service
+
+With this service, we can read the current user, i.e. the user whose access token
+is used when calling Gitlab. We can also use this to test the Gitlab connection configuration,
+because this is the least expensive operation.
+
+```typescript
+export class MyService {
+
+  constructor(private readonly service: GitlabUsersService) {
+  }
+
+  readCurrentUser(): void {
+    this.service
+      .getCurrentUser()
+      .subscribe(user => {
+        // ... user is type of GitlabUser
+      });
+  }
+
+}
+```
+
 ## Gitlab Service - Basic API Calls
 
 `GitlabService` is a common service without any relation to a special REST resource.
@@ -72,25 +101,25 @@ Calls to Gitlab are made using the Angular `HttpClient`. To invoke a simple get 
 
 ```typescript
   gitlab
-    .call<MyCommitType>('projects/5/repository/commits')
-    .subscribe(commit => {
-        // ...
-    })
+  .call<MyCommitType>('projects/5/repository/commits')
+  .subscribe(commit => {
+    // ...
+  })
 ```
 
 We can also provide the HTTP method and some other options like additional headers:
 
 ```typescript
   gitlab
-    .call<MyCommitResult>('projects/5/repository/commits', 'post', {
-        body: myNewCommit,
-        headers: {
-            myHeaderName: myHeaderValue
-        }
-    })
-    .subscribe(result => {
-        // ...
-    })
+  .call<MyCommitResult>('projects/5/repository/commits', 'post', {
+    body: myNewCommit,
+    headers: {
+      myHeaderName: myHeaderValue
+    }
+  })
+  .subscribe(result => {
+    // ...
+  })
 ```
 
 ### Paginated calls
@@ -102,14 +131,14 @@ We can simply use
 
 ```typescript
   gitlab
-    .callPaginated<MyType>('projects/5/repository/commits')
-    .pipe(take(10)) // only read the first 10 entries, then skip
-    .subscribe(dataset => {
-      let myObj = dataset.payload;
-      let index = dataset.index;
-      let total = dataset.total;
-      // ...
-    })
+  .callPaginated<MyType>('projects/5/repository/commits')
+  .pipe(take(10)) // only read the first 10 entries, then skip
+  .subscribe(dataset => {
+    let myObj = dataset.payload;
+    let index = dataset.index;
+    let total = dataset.total;
+    // ...
+  })
 ```
 
 We have to be aware that the default page size is 20, so those 20 entries are read out with a single request.
@@ -117,7 +146,7 @@ If we already know the count of entries we want to read, we could also specify a
 
 ```typescript
   gitlab
-    .callPaginated<MyType>('projects/5/repository/commits', null, 10)
+  .callPaginated<MyType>('projects/5/repository/commits', null, 10)
 ```
 
 ### Notifications for Gitlab calls
