@@ -57,7 +57,7 @@ export class MyModule {
 }
 ```
 
-## Use Gitlab Service directly
+## Gitlab Service - Basic API Calls
 
 `GitlabService` is a common service without any relation to a special REST resource.
 We can use it, when we
@@ -65,7 +65,7 @@ We can use it, when we
 - want to access a resource that is not provided by any of the other services
 - want to get notified whenever a REST call was made (or an error occurred)
 
-## Simple calls
+### Simple calls
 
 Calls to Gitlab are made using the Angular `HttpClient`. To invoke a simple get request
 (using the configured Gitlab connection configuration), we can use
