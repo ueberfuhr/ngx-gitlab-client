@@ -57,3 +57,95 @@ export class MyModule {
 }
 ```
 
+## Use Gitlab Service directly
+
+`GitlabService` is a common service without any relation to a special REST resource.
+We can use it, when we
+
+- want to access a resource that is not provided by any of the other services
+- want to get notified whenever a REST call was made (or an error occurred)
+
+## Simple calls
+
+Calls to Gitlab are made using the Angular `HttpClient`. To invoke a simple get request
+(using the configured Gitlab connection configuration), we can use
+
+```typescript
+  gitlab
+    .call<MyCommitType>('projects/5/repository/commits')
+    .subscribe(commit => {
+        // ...
+    })
+```
+
+We can also provide the HTTP method and some other options like additional headers:
+
+```typescript
+  gitlab
+    .call<MyCommitResult>('projects/5/repository/commits', 'post', {
+        body: myNewCommit,
+        headers: {
+            myHeaderName: myHeaderValue
+        }
+    })
+    .subscribe(result => {
+        // ...
+    })
+```
+
+### Paginated calls
+
+For big data, Gitlab uses pagination. `GitlabService` is able to handle it
+and provides lazy loading, i.e. it only calls the API when we need to read the data.
+
+We can simply use
+
+```typescript
+  gitlab
+    .callPaginated<MyType>('projects/5/repository/commits')
+    .pipe(take(10)) // only read the first 10 entries, then skip
+    .subscribe(dataset => {
+      let myObj = dataset.payload;
+      let index = dataset.index;
+      let total = dataset.total;
+      // ...
+    })
+```
+
+We have to be aware that the default page size is 20, so those 20 entries are read out with a single request.
+If we already know the count of entries we want to read, we could also specify a different page size:
+
+```typescript
+  gitlab
+    .callPaginated<MyType>('projects/5/repository/commits', null, 10)
+```
+
+### Notifications for Gitlab calls
+
+We can get notified when a call to Gitlab is made or when an error occurred.
+E.g., this allows to provide a kind of component to display the current connection status:
+
+```typescript
+export class GitlabConnectionStatusComponent implements OnInit, OnDestroy {
+
+  private accesses?: Subscription;
+  private errors?: Subscription;
+
+  constructor(private readonly gitlab: GitlabService) {
+  }
+
+  ngOnInit(): void {
+    this.accesses = this.gitlab.accesses.subscribe(access => {
+      // ... (access is type of GitlabAccess)
+    });
+    this.errors = this.gitlab.errors.subscribe(err => {
+      // ... (err is type of GitlabAccessError)
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.accesses?.unsubscribe();
+    this.errors?.unsubscribe()
+  }
+}
+```
